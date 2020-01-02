@@ -1,0 +1,13 @@
+CREATE DATABASE `jd2_homework3-4`;
+USE jd2_homework3-4;
+CREATE TABLE film (name VARCHAR(50) NOT NULL PRIMARY KEY, duration INT(3), price DECIMAL(4,2));
+INSERT INTO film (name, duration, price) VALUES ('The Shining', 120, 12.5);
+INSERT INTO film (name, duration, price) VALUES ('A Clockwork Orange', 60, 7.5);
+INSERT INTO film (name, duration, price) VALUES ('Full Metal Jacket', 90, 9.5);
+INSERT INTO film (name, duration, price) VALUES ('Dr. Strangelove', 90, 8);
+INSERT INTO film (name, duration, price) VALUES ('2001: A Space Odyssey', 120, 13);
+SELECT MAX(price) FROM film;
+DELETE FROM film WHERE price = (SELECT * FROM (SELECT MIN(price) FROM film) AS min);
+UPDATE film SET name = 'Hot film!' WHERE price = (SELECT * FROM (SELECT MAX(price) FROM film) AS max);
+DROP TABLE film;
+DROP DATABASE `jd2_homework3-4`;
