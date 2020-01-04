@@ -51,7 +51,6 @@ public class CarRepositoryImpl implements CarRepository {
             }
             return car;
         }
-
     }
 
     @Override
@@ -72,7 +71,6 @@ public class CarRepositoryImpl implements CarRepository {
                 return carList;
             }
         }
-
     }
 
     @Override
@@ -81,7 +79,6 @@ public class CarRepositoryImpl implements CarRepository {
             return statement.execute(
                     "DELETE FROM car WHERE engine_capacity = (SELECT * FROM (SELECT MIN(engine_capacity) FROM car) AS min)"
             );
-
         }
     }
 
@@ -99,23 +96,22 @@ public class CarRepositoryImpl implements CarRepository {
                 logger.info("Count of cars with engine capacity = " + searchEngineCapacity + " : " + count);
                 return count;
             }
-
         }
     }
 
     @Override
-    public int updateTitleByEngineCapacity(Connection connection, int searchEngineCapacity) throws SQLException {
+    public int updateTitleByEngineCapacity(Connection connection, int searchEngineCapacity, String updatedName) throws SQLException {
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(
-                        "UPDATE car SET name = 'Good Capacity' WHERE engine_capacity = ?"
+                        "UPDATE car SET name = ? WHERE engine_capacity = ?"
                 )
         ) {
-            preparedStatement.setInt(1, searchEngineCapacity);
+            preparedStatement.setInt(2, searchEngineCapacity);
+            preparedStatement.setString(1, updatedName);
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Updating car failed, no rows affected.");
             }
-
             return affectedRows;
         }
     }
@@ -123,7 +119,8 @@ public class CarRepositoryImpl implements CarRepository {
     private Car getCar(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
         String name = resultSet.getString("name");
-        CarModelEnum carModel = getCarModel(resultSet.getString("car_model"));
+        String carModelString = resultSet.getString("car_model");
+        CarModelEnum carModel = CarModelEnum.valueOf(carModelString);
         Integer engineCapacity = resultSet.getInt("engine_capacity");
         return Car.newBuilder()
                 .id(id)
@@ -131,19 +128,6 @@ public class CarRepositoryImpl implements CarRepository {
                 .carModel(carModel)
                 .engineCapacity(engineCapacity)
                 .build();
-    }
-
-    private CarModelEnum getCarModel(String carModel) {
-        switch (carModel) {
-            case "HONDA":
-                return CarModelEnum.HONDA;
-            case "MAZDA":
-                return CarModelEnum.MAZDA;
-            case "KIA":
-                return CarModelEnum.KIA;
-            default:
-                throw new IllegalArgumentException("Wrong car model!");
-        }
     }
 
 }

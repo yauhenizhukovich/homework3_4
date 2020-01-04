@@ -20,8 +20,8 @@ public class SecondTaskServiceImpl implements SecondTaskService {
         carService.findAllByEngineCapacity(generateEngineCapacity());
         carService.deleteAllByMinEngineCapacity();
         carService.getCountByEngineCapacity(generateEngineCapacity());
-        carService.updateTitleByEngineCapacity(generateEngineCapacity());
-
+        String updatedName = "Good capacity";
+        carService.updateTitleByEngineCapacity(generateEngineCapacity(), updatedName);
     }
 
     private void addCarsToTable(CarService carService, int countOfCars) {

@@ -18,6 +18,6 @@ public interface CarRepository {
 
     int getCountByEngineCapacity(Connection connection, int searchEngineCapacity) throws SQLException;
 
-    int updateTitleByEngineCapacity(Connection connection, int searchEngineCapacity) throws SQLException;
+    int updateTitleByEngineCapacity(Connection connection, int searchEngineCapacity, String updatedName) throws SQLException;
 
 }

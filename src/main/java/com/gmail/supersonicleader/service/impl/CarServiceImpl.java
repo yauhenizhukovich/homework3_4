@@ -112,11 +112,11 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public int updateTitleByEngineCapacity(int searchEngineCapacity) {
+    public int updateTitleByEngineCapacity(int searchEngineCapacity, String updatedName) {
         try (Connection connection = connectionRepository.getConnection()) {
             connection.setAutoCommit(false);
             try {
-                int affectedRows = carRepository.updateTitleByEngineCapacity(connection, searchEngineCapacity);
+                int affectedRows = carRepository.updateTitleByEngineCapacity(connection, searchEngineCapacity, updatedName);
                 carRepository.findAllByEngineCapacity(connection, searchEngineCapacity);
                 connection.commit();
                 return affectedRows;

@@ -16,6 +16,6 @@ public interface CarService {
 
     int getCountByEngineCapacity(int searchEngineCapacity);
 
-    int updateTitleByEngineCapacity(int searchEngineCapacity);
+    int updateTitleByEngineCapacity(int searchEngineCapacity, String updatedName);
 
 }

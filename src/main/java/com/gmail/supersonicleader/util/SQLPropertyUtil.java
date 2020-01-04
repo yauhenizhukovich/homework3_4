@@ -29,7 +29,6 @@ public class SQLPropertyUtil {
             }
         }
         return properties.getProperty(name);
-
     }
 
 }
